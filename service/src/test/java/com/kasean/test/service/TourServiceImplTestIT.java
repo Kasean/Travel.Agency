@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RunWith(MockitoJUnitRunner.class)
-public class TourServiceImplTest {
+public class TourServiceImplTestIT {
 
     @Mock
     private static TourDao tourDao;

@@ -1,7 +1,5 @@
 package com.kasean.test.webapp;
 
-import com.kasean.test.webapp.controllers.MainControllerForAdmin;
-
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -9,6 +7,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.kasean.test.webapp.controllers.LoginController;
+import com.kasean.test.webapp.controllers.MainControllerForAdmin;
 import org.junit.jupiter.api.Test;
 
 import org.junit.runner.RunWith;
@@ -21,35 +21,24 @@ import org.springframework.test.web.servlet.MockMvc;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class ControllerForAdminTest {
+public class ControllerForLoginIT {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
-    private MainControllerForAdmin mainControllerForAdmin;
+    private LoginController loginController;
 
     @Test
     public void testInit() throws Exception{
-        assertThat(mainControllerForAdmin).isNotNull();
+        assertThat(loginController).isNotNull();
     }
 
     @Test
     public void shouldReturnMainPage() throws Exception {
-        this.mockMvc.perform(get("/AdminMain"))
+        this.mockMvc.perform(get("/"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("ТУРЫ")));;
+                .andExpect(content().string(containsString("Please sign in")));;
     }
-
-    @Test
-    public void shouldReturnAddPage() throws Exception {
-        this.mockMvc.perform(get("/Add"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().string(containsString("Форма добавления тура")));;
-    }
-
-
-
 }
