@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
 
     @Autowired
@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public Tour byTour(Long tour_id, Long user_id){
+    public Tour byTour(Long tour_id, Long user_id) {
         LOGGER.debug("User: {} buy tour: {}", user_id, tour_id);
         Tour tour = tourDao.findById(tour_id).orElseThrow();
 
@@ -42,16 +42,16 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public List<Tour> showMyTour(Long user_id){
+    public List<Tour> showMyTour(Long user_id) {
         Iterable<Tour> tourIterable = tourDao.findAll();
         List<Tour> temp = new ArrayList<>();
         tourIterable.forEach(temp::add);
 
         List<Tour> result = new ArrayList<>();
 
-        for(int i = 0;i < temp.size();i++){
-            if(temp.get(i).getUser_id() == user_id){
-                result.add(temp.get(i));
+        for (Tour i : temp) {
+            if (i.getUser_id() == user_id) {
+                result.add(i);
             }
         }
 

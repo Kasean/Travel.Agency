@@ -15,7 +15,7 @@ import java.util.Optional;
 
 
 @Service
-public class TourServiceImpl implements TourService{
+public class TourServiceImpl implements TourService {
 
 
     @Autowired
@@ -30,7 +30,7 @@ public class TourServiceImpl implements TourService{
     }
 
     @Override
-    public Optional<Tour> findById(Long id){
+    public Optional<Tour> findById(Long id) {
 
         LOGGER.trace("findById(Id: {})", id);
         return tourDao.findById(id);
@@ -58,18 +58,20 @@ public class TourServiceImpl implements TourService{
     }
 
     @Override
-    public List<Tour> findByDirection(String direction){
+    public List<Tour> findByDirection(String direction) {
 
         Iterable<Tour> tours = tourDao.findAll();
         List<Tour> temp = new ArrayList<>();
         List<Tour> result = new ArrayList<>();
         tours.forEach(temp::add);
 
-        for (int i = 0;i < temp.size();i++){
-            if (temp.get(i).getDirection().equals(direction)){
-                result.add(temp.get(i));
+        for (Tour i : temp) {
+            if (i.getDirection().equals(direction)) {
+                result.add(i);
             }
         }
+
+
         return result;
     }
 

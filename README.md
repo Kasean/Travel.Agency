@@ -10,6 +10,10 @@ This is simple 'Travel agency' web application.
 
 mvn clean install
 
+cd web-app
+
+mvn clean install
+
 ##Local tests
 From the same directory as your root pom.xml, type: for start web-app...
 
@@ -23,6 +27,6 @@ http://localhost:8080/create-users - to create test users
 
 http://localhost:8080/create-tours - to create test tours
 
-http://localhost:8080/login - authorization page 
+http://localhost:8080/ - authorization page 
 
 ###(["user@user.com", "user"], ["admin@admin.com", "admin"]) - logins and passwords for the user and administrator.

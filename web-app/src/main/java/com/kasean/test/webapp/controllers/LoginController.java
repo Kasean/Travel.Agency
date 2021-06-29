@@ -16,19 +16,13 @@ import java.util.List;
 @Controller
 public class LoginController {
 
-    @Autowired
-    private UserServiceImpl userService;
-
-
-    @GetMapping("/login")
+    @GetMapping("/")
     public String showLoginPage(Model model) {
         return "login";
     }
 
-    @PostMapping("/login")
+    @PostMapping("/")
     public String doLogin(@RequestParam String login, String password, Model model){
-
-
 
         if((login.equals("admin@admin.com")) && (password.equals("admin"))){
             return "AdminMain";
