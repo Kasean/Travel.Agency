@@ -14,6 +14,13 @@ cd web-app
 
 mvn clean install
 
+##Select profiles for db
+
+in application.properties file:
+
+spring.profiles.active=dev(for use H2 in memory database)
+spring.profiles.active=prod(for use MySQL database)
+
 ##Local tests
 From the same directory as your root pom.xml, type: for start web-app...
 
