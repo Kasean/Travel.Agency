@@ -65,10 +65,10 @@ public class UserController {
 
     }
 
-    @GetMapping(value = "/Basket/{id}")
-    public List<Tour> showUserBasket(@PathVariable Long id){
-        List<Tour> tours = userService.showMyTour(id);
-        return tours;
+    @PostMapping(value = "/Basket", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<List<Tour>> showUserBasket(@RequestBody User user){
+        List<Tour> tours = userService.showMyTour(user.getId());
+        return new ResponseEntity<>(tours, HttpStatus.OK);
     }
 
     @PostMapping(value = "/buy-tour", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
