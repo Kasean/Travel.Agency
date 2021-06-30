@@ -15,6 +15,7 @@ import java.util.Optional;
 
 
 @Service
+@Transactional
 public class TourServiceImpl implements TourService {
 
 

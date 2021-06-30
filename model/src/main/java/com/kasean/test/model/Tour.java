@@ -36,6 +36,17 @@ public class Tour {
         this.coast = coast;
     }
 
+    @Override
+    public String toString() {
+        return "Tour{" +
+                "id=" + id +
+                ", direction='" + direction + '\'' +
+                ", date=" + date +
+                ", coast=" + coast +
+                ", user_id=" + user_id +
+                '}';
+    }
+
     public String getDirection() {
         return direction;
     }

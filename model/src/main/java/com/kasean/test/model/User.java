@@ -31,6 +31,16 @@ public class User {
         this.is_admin = is_admin;
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", user_name='" + user_name + '\'' +
+                ", user_pass='" + user_pass + '\'' +
+                ", is_admin=" + is_admin +
+                '}';
+    }
+
     public String getUser_name() {
         return user_name;
     }

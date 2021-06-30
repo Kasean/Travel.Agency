@@ -13,5 +13,6 @@ public interface UserService {
 
     List<Tour> showMyTour(Long user_id);
 
+    User createUser(String user_name, String user_pass, Integer is_Admin);
 
 }

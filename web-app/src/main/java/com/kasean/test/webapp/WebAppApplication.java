@@ -40,8 +40,8 @@ public class WebAppApplication{
     @RequestMapping("create-users")
     public List<User> createUsers(){
         List<User> users = new ArrayList<>(2);
-        users.add(userService.createUser("user@user.com", "user", 10000, 0));
-        users.add(userService.createUser("admin@admin.com", "admin", 1000000, 1));
+        users.add(userService.createUser("user@user.com", "user", 0));
+        users.add(userService.createUser("admin@admin.com", "admin", 1));
         return users;
     }
 
