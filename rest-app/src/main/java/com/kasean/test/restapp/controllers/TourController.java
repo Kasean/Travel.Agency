@@ -70,7 +70,7 @@ public class TourController {
         return tours;
     }
 
-    @GetMapping("/ShowAllTour")
+    @GetMapping("/ShowAllTours")
     public List<Tour> findAll() {
         Iterable<Tour> tourIterable = tourService.findAll();
         List<Tour> result = new ArrayList<>();

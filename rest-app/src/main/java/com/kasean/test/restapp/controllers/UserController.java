@@ -3,6 +3,7 @@ package com.kasean.test.restapp.controllers;
 import com.kasean.test.impl.UserRestServiceImpl;
 import com.kasean.test.model.Tour;
 import com.kasean.test.model.User;
+import com.kasean.test.restapp.dto.BuyTourDto;
 import com.kasean.test.service.TourService;
 import com.kasean.test.service.UserService;
 import com.kasean.test.service.UserServiceImpl;
@@ -70,6 +71,11 @@ public class UserController {
         return tours;
     }
 
+    @PostMapping(value = "/buy-tour", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<Tour> buyTour(@RequestBody BuyTourDto dto){
+        Tour tour = userService.byTour(dto.getTour_id(), dto.getUser_id());
+        return new ResponseEntity<>(tour, HttpStatus.OK);
+    }
 
 
 
