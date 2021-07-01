@@ -1,0 +1,131 @@
+databaseChangeLog:
+  - logicalFilePath: db/changelog/db.changelog-lesson1.yaml
+  - changeSet:
+      id: 1
+      author: admin
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: username
+                  type: varchar(50)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: password
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: is_admin
+                  type: INT
+                  constraints:
+                    - nullable: false
+  - changeSet:
+      id: 2
+      author: admin
+      changes:
+        - createTable:
+            tableName: tour
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: direction
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: coast
+                  type: INT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: BIGINT
+  - changeSet:
+      id: 3
+      author: admin
+      comment: "Create test users"
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: username
+                  value: "admin@admin.com"
+              - column:
+                  name: password
+                  value: "admin"
+              - column:
+                  name: is_admin
+                  value: 1
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: username
+                  value: "user@user.com"
+              - column:
+                  name: password
+                  value: "user"
+              - column:
+                  name: is_admin
+                  value: 0
+      rollback:
+        - delete:
+            tableName: users
+            where: username in ('admin@admin.com', 'user@user.com')
+
+  - changeSet:
+      id: 4
+      author: admin
+      comment: "Create test tour"
+      changes:
+        - insert:
+            tableName: tour
+            columns:
+              - column:
+                  name: direction
+                  value: "Brest-Kair"
+              - column:
+                  name: date
+                  value: "2021-12-01"
+              - column:
+                  name: coast
+                  value: 3000
+        - insert:
+            tableName: tour
+            columns:
+              - column:
+                  name: direction
+                  value: "Brest-Moscow"
+              - column:
+                  name: date
+                  value: "2021-08-10"
+              - column:
+                  name: coast
+                  value: 1000
+      rollback:
+        - delete:
+            tableName: tour
+            where: direction in ('Brest-Kair', 'Brest-Moscow')
