@@ -19,7 +19,7 @@ Show all users: curl http://localhost:8088/users
 
 Create user: curl -H 'Content-Type: application/json' --data '{"id":int,"user_name":"[username]@user.com","user_pass":"String", "is_admin":int}' http://localhost:8088/create-user
 
-Show user basket: curl http://localhost:8088/Basket/{user_id}
+Show user basket: curl -H 'Content-Type: application/json' -- data '{"id":int,"user_name":"[username]@user.com","user_pass":"String", "is_admin":int}' http://localhost:8088/Basket/
 
 Buy tour: curl -H 'Content-Type: application/json' --data '{"user_id":[int user_id], "tour_id":[int tour_id]}' http://localhost:8088/buy-tour
 

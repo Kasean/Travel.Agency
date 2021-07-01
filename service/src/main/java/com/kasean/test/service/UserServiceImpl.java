@@ -34,12 +34,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Tour byTour(Long tour_id, Long user_id) {
+    public Long byTour(Long tour_id, Long user_id) {
         LOGGER.debug("User: {} buy tour: {}", user_id, tour_id);
         Tour tour = tourDao.findById(tour_id).orElseThrow();
 
         tour.setUser_id(user_id);
-        return tourDao.save(tour);
+        tourDao.save(tour);
+        return tour.getId();
 
     }
 
@@ -61,10 +62,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User createUser(String user_name, String user_pass, Integer is_Admin) {
-        LOGGER.debug("Create user(Login:{}, Password:{}, Money:{}, isAdmin:{})", user_name, user_pass, is_Admin);
-        User user = new User(user_name, user_pass, is_Admin);
-        return userDao.save(user);
+    public Long createUser(User user) {
+        LOGGER.debug("Create user {}", user);
+        userDao.save(user);
+        return user.getId();
     }
 
 

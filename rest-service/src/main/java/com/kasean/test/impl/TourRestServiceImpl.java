@@ -1,72 +1,104 @@
 package com.kasean.test.impl;
 
 
-import com.kasean.test.dao.TourDao;
-import com.kasean.test.dao.UserDao;
 import com.kasean.test.model.Tour;
 import com.kasean.test.service.TourService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class TourRestServiceImpl implements TourService {
 
-    @Autowired
-    private TourDao tourDao;
+    private static final Logger LOGGER = LoggerFactory.getLogger(TourRestServiceImpl.class);
+
+//    private String url;
+//
+//    private RestTemplate restTemplate;
+//
+//    public TourRestServiceImpl() {
+//    }
+//
+//    public TourRestServiceImpl(String url, RestTemplate restTemplate) {
+//        this.url = url;
+//        this.restTemplate = restTemplate;
+//    }
 
     @Override
     public Iterable<Tour> findAll() {
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "http://localhost:8088/ShowAllTours";
+        LOGGER.debug("findAllTours()");
+        ResponseEntity responseEntity = restTemplate.getForEntity(url, Iterable.class);
+        return (Iterable<Tour>) responseEntity.getBody();
 
-        return tourDao.findAll();
     }
 
     @Override
     public List<Tour> findByDirection(String direction) {
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "http://localhost:8088/Search/" + direction;
+        LOGGER.debug("find tours by direction: {}", direction);
+        ResponseEntity responseEntity = restTemplate.getForEntity(url, List.class);
+        return (List<Tour>) responseEntity.getBody();
 
-        Iterable<Tour> tours = tourDao.findAll();
-        List<Tour> temp = new ArrayList<>();
-        List<Tour> result = new ArrayList<>();
-        tours.forEach(temp::add);
-
-        for (Tour i : temp) {
-            if (i.getDirection().equals(direction)) {
-                result.add(i);
-            }
-        }
-
-        return result;
     }
 
     @Override
     public Optional<Tour> findById(Long id) {
-        return Optional.empty();
+
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "http://localhost:8088/findById/";
+        LOGGER.debug("find by id ({})", id);
+        ResponseEntity<Tour> responseEntity =
+                restTemplate.getForEntity(url + id, Tour.class);
+
+        return Optional.ofNullable(responseEntity.getBody());
     }
 
     @Override
-    public Tour createTour(String direction, LocalDate date, Integer coast) {
-        Tour tour = new Tour(direction, date, coast);
-        return tourDao.save(tour);
+    public Long createTour(Tour tour) {
+        LOGGER.debug("create tour: {} ", tour);
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "http://localhost:8088/createTour";
+        ResponseEntity responseEntity = restTemplate.postForEntity(url, tour, Long.class);
+        return (Long) responseEntity.getBody();
     }
 
     @Override
-    public Tour updateTour(Long tour_id, String direction, LocalDate date, Integer coast) {
+    public Long updateTour(Tour tour) {
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "http://localhost:8088/updateTour";
 
-        Tour tour = tourDao.findById(tour_id).orElseThrow();
-        tour.setDirection(direction);
-        tour.setDate(date);
-        tour.setCoast(coast);
+        LOGGER.debug("update ({})", tour);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        HttpEntity<Tour> entity = new HttpEntity<>(tour, httpHeaders);
+        ResponseEntity<Long> result = restTemplate.exchange(url, HttpMethod.PUT, entity, Long.class);
+        return result.getBody();
 
-        return tourDao.save(tour);
     }
 
     @Override
-    public void deleteTour(Long tour_id) {
-        Tour tour = tourDao.findById(tour_id).orElseThrow();
-        tourDao.delete(tour);
+    public Long deleteTour(Long tour_id) {
+
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "http://localhost:8088//deleteTour";
+
+        LOGGER.debug("delete ({})", tour_id);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        HttpEntity<Tour> entity = new HttpEntity<>(httpHeaders);
+        ResponseEntity<Long> result =
+                restTemplate.exchange(url + "/" + tour_id, HttpMethod.DELETE, entity, Long.class);
+        return result.getBody();
+
     }
 }

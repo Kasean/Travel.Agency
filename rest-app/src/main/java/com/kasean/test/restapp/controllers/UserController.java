@@ -35,7 +35,7 @@ public class UserController {
 //    }
 
     @Autowired
-    @Qualifier("userRestServiceImpl")
+    @Qualifier("userServiceImpl")
     private UserService userService;
 
     @Autowired
@@ -50,31 +50,23 @@ public class UserController {
         return userService.findAll();
     }
 
-    @GetMapping("createTestUsers")
-    public List<User> createTestUsers(){
-        List<User> users = new ArrayList<>(2);
-        users.add(userService.createUser("Bob@user.com", "user", 0));
-        users.add(userService.createUser("Joe@user.com", "admin", 1));
-        return users;
-    }
-
     @PostMapping(value = "/create-user", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<User> createUser(@RequestBody User user){
-        User user1 = userService.createUser(user.getUser_name(), user.getUser_pass(), 0);
-        return new ResponseEntity<>(user1, HttpStatus.OK);
+        Long newUserId = userService.createUser(user);
+        return new ResponseEntity<>(user, HttpStatus.OK);
 
     }
 
     @PostMapping(value = "/Basket", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<List<Tour>> showUserBasket(@RequestBody User user){
-        List<Tour> tours = userService.showMyTour(user.getId());
+    public ResponseEntity<List<Tour>> showUserBasket(@RequestBody Long id){
+        List<Tour> tours = userService.showMyTour(id);
         return new ResponseEntity<>(tours, HttpStatus.OK);
     }
 
     @PostMapping(value = "/buy-tour", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Tour> buyTour(@RequestBody BuyTourDto dto){
-        Tour tour = userService.byTour(dto.getTour_id(), dto.getUser_id());
-        return new ResponseEntity<>(tour, HttpStatus.OK);
+    public ResponseEntity<Long> buyTour(@RequestBody BuyTourDto dto){
+        Long tour_id = userService.byTour(dto.getTour_id(), dto.getUser_id());
+        return new ResponseEntity<>(tour_id, HttpStatus.OK);
     }
 
 

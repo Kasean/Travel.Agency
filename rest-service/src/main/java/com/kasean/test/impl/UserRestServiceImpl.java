@@ -6,8 +6,11 @@ import com.kasean.test.model.Tour;
 import com.kasean.test.model.User;
 import com.kasean.test.service.UserService;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -16,48 +19,44 @@ import java.util.List;
 @Service
 public class UserRestServiceImpl implements UserService {
 
-    @Autowired
-    private UserDao userDao;
-
-    @Autowired
-    private TourDao tourDao;
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserRestServiceImpl.class);
 
     @Override
     public Iterable<User> findAll() {
-        return userDao.findAll();
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "http://localhost:8088";
+        LOGGER.debug("find all users");
+        ResponseEntity responseEntity = restTemplate.getForEntity(url, List.class);
+        return (List<User>) responseEntity.getBody();
     }
 
     @Override
-    public Tour byTour(Long tour_id, Long user_id) {
+    public Long byTour(Long tour_id, Long user_id) {
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "http://localhost:8088/buy-tour";
+        LOGGER.debug("user: {} buy tour: {}", user_id, tour_id);
+        BuyTourDto buyTourDto = new BuyTourDto(user_id, tour_id);
+        ResponseEntity responseEntity = restTemplate.postForEntity(url, buyTourDto, Long.class);
+        return (Long) responseEntity.getBody();
 
-        Tour tour = tourDao.findById(tour_id).orElseThrow();
-
-        tour.setUser_id(user_id);
-        return tourDao.save(tour);
     }
 
     @Override
     public List<Tour> showMyTour(Long user_id) {
-        Iterable<Tour> tourIterable = tourDao.findAll();
-        List<Tour> temp = new ArrayList<>();
-        tourIterable.forEach(temp::add);
-
-        List<Tour> result = new ArrayList<>();
-
-        for (Tour i : temp) {
-            if (i.getUser_id() == user_id) {
-                result.add(i);
-            }
-        }
-
-        return result;
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "http://localhost:8088/Basket";
+        LOGGER.debug("findAllTours()");
+        ResponseEntity responseEntity = restTemplate.postForEntity(url, user_id, List.class);
+        return (List) responseEntity.getBody();
     }
 
     @Override
-    public User createUser(String user_name, String user_pass, Integer is_admin) {
+    public Long createUser(User user) {
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "http://localhost:8088";
 
-        User user = new User(user_name, user_pass, is_admin);
-        return userDao.save(user);
+        LOGGER.debug("create({})", user);
+        ResponseEntity responseEntity = restTemplate.postForEntity(url, user, Long.class);
+        return (Long) responseEntity.getBody();
     }
 }

@@ -1,7 +1,6 @@
 package com.kasean.test.webapp.controllers;
 
 import com.kasean.test.model.User;
-import com.kasean.test.service.UserServiceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

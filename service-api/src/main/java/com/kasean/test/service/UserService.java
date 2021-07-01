@@ -9,10 +9,10 @@ public interface UserService {
 
     Iterable<User> findAll();
 
-    Tour byTour(Long tour_id, Long user_id);
+    Long byTour(Long tour_id, Long user_id);
 
     List<Tour> showMyTour(Long user_id);
 
-    User createUser(String user_name, String user_pass, Integer is_Admin);
+    Long createUser(User user);
 
 }
