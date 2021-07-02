@@ -15,13 +15,13 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: username
+                  name: user_name
                   type: varchar(50)
                   constraints:
                     unique: true
                     nullable: false
               - column:
-                  name: password
+                  name: user_pass
                   type: varchar(50)
                   constraints:
                     nullable: false
@@ -71,10 +71,10 @@ databaseChangeLog:
             tableName: users
             columns:
               - column:
-                  name: username
+                  name: user_name
                   value: "admin@admin.com"
               - column:
-                  name: password
+                  name: user_pass
                   value: "admin"
               - column:
                   name: is_admin
@@ -83,10 +83,10 @@ databaseChangeLog:
             tableName: users
             columns:
               - column:
-                  name: username
+                  name: user_name
                   value: "user@user.com"
               - column:
-                  name: password
+                  name: user_pass
                   value: "user"
               - column:
                   name: is_admin
@@ -94,7 +94,7 @@ databaseChangeLog:
       rollback:
         - delete:
             tableName: users
-            where: username in ('admin@admin.com', 'user@user.com')
+            where: user_name in ('admin@admin.com', 'user@user.com')
 
   - changeSet:
       id: 4

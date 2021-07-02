@@ -32,12 +32,12 @@ public class MainControllerForAdmin {
 
         model.addAttribute("tours", tours);
 
-        return "AdminMain";
+        return "admin-main";
     }
 
     @GetMapping("/Add")
     public String showAddPage(Model model){
-        return "Add";
+        return "add";
     }
 
     @PostMapping("/Add")
@@ -47,7 +47,7 @@ public class MainControllerForAdmin {
 
         tourService.createTour(new Tour(direction, tourDate, coast));
 
-        return "Add";
+        return "add";
     }
 
     @GetMapping("/Change/{id}")
@@ -58,7 +58,7 @@ public class MainControllerForAdmin {
         tour.ifPresent(tours::add);
         model.addAttribute("tours", tours);
 
-        return "Change";
+        return "change";
     }
 
     @PostMapping("/Change/{id}")
@@ -67,7 +67,7 @@ public class MainControllerForAdmin {
         Tour tour = new Tour(direction, tourDate, coast);
         tour.setId(id);
         tourService.updateTour(tour);
-        return "AdminMain";
+        return "admin-main";
 
     }
 
@@ -75,7 +75,7 @@ public class MainControllerForAdmin {
     public String deleteTour(@PathVariable(value = "id") long id, Model model){
         tourService.deleteTour(id);
 
-        return "AdminMain";
+        return "admin-main";
 
     }
 
@@ -86,6 +86,6 @@ public class MainControllerForAdmin {
 
         model.addAttribute("tours", tours);
 
-        return "AdminMain";
+        return "admin-main";
     }
 }

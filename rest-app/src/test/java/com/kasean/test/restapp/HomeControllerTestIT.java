@@ -1,7 +1,7 @@
 package com.kasean.test.restapp;
 
 import com.kasean.test.restapp.controllers.HomeController;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

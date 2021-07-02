@@ -41,7 +41,7 @@ public class MainControllerForUser {
 
     @GetMapping("/AboutUs")
     public String showAboutUsPage(Model model) {
-        return "AboutUs";
+        return "about-us";
     }
 
 
@@ -52,7 +52,7 @@ public class MainControllerForUser {
 
         model.addAttribute("tours", tours);
 
-        return "MyTour";
+        return "my-tour";
     }
 
     @PostMapping("/Buy/{id}")

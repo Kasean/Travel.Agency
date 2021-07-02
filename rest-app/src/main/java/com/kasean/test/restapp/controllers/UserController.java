@@ -27,12 +27,6 @@ public class UserController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
-//    @Bean(name="entityManagerFactory")
-//    public LocalSessionFactoryBean sessionFactory() {
-//        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-//
-//        return sessionFactory;
-//    }
 
     @Autowired
     @Qualifier("userServiceImpl")
@@ -43,7 +37,7 @@ public class UserController {
     private TourService tourService;
 
 
-    @GetMapping(value = "users")
+    @GetMapping(value = "/users")
     public final Iterable<User> users(){
 
         LOGGER.debug("users()");
