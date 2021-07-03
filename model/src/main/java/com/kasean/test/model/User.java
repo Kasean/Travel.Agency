@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 @Table(name = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
     @Column(name = "id", nullable = false)
     private Long id;
@@ -29,6 +29,16 @@ public class User {
         this.user_name = user_name;
         this.user_pass = user_pass;
         this.is_admin = is_admin;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", user_name='" + user_name + '\'' +
+                ", user_pass='" + user_pass + '\'' +
+                ", is_admin=" + is_admin +
+                '}';
     }
 
     public String getUser_name() {

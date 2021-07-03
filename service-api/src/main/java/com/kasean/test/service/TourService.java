@@ -14,12 +14,10 @@ public interface TourService {
 
     Optional<Tour> findById(Long id);
 
-    Tour createTour(String direction, LocalDate date, Integer coast);
+    Long createTour(Tour tour);
 
-    Tour updateTour(Long tour_id, String direction, LocalDate date, Integer coast);
+    Long updateTour(Tour tour);
 
-
-
-    void deleteTour(Long tour_id);
+    Long deleteTour(Long tour_id);
 
 }

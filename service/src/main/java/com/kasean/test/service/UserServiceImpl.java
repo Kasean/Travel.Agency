@@ -9,10 +9,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
 
@@ -32,12 +34,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Tour byTour(Long tour_id, Long user_id) {
+    public Long byTour(Long tour_id, Long user_id) {
         LOGGER.debug("User: {} buy tour: {}", user_id, tour_id);
         Tour tour = tourDao.findById(tour_id).orElseThrow();
 
         tour.setUser_id(user_id);
-        return tourDao.save(tour);
+        tourDao.save(tour);
+        return tour.getId();
 
     }
 
@@ -58,11 +61,12 @@ public class UserServiceImpl implements UserService {
         return result;
     }
 
-    public User createUser(String user_name, String user_pass, Integer money, Integer is_admin) {
-
-        LOGGER.debug("Create user(Login:{}, Password:{}, Money:{}, isAdmin:{})", user_name, user_pass, is_admin);
-        User user = new User(user_name, user_pass, is_admin);
-        return userDao.save(user);
+    @Override
+    public Long createUser(User user) {
+        LOGGER.debug("Create user {}", user);
+        userDao.save(user);
+        return user.getId();
     }
+
 
 }

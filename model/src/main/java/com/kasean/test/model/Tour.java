@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Table(name = "tour")
 public class Tour {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     @NotNull
     private Long id;
@@ -34,6 +34,17 @@ public class Tour {
         this.direction = direction;
         this.date = date;
         this.coast = coast;
+    }
+
+    @Override
+    public String toString() {
+        return "Tour{" +
+                "id=" + id +
+                ", direction='" + direction + '\'' +
+                ", date=" + date +
+                ", coast=" + coast +
+                ", user_id=" + user_id +
+                '}';
     }
 
     public String getDirection() {

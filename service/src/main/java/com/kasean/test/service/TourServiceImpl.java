@@ -15,6 +15,7 @@ import java.util.Optional;
 
 
 @Service
+@Transactional
 public class TourServiceImpl implements TourService {
 
 
@@ -37,24 +38,24 @@ public class TourServiceImpl implements TourService {
     }
 
     @Override
-    public Tour createTour(String direction, LocalDate date, Integer coast) {
+    public Long createTour(Tour tour) {
 
-        LOGGER.debug("Create tour(Direction:{}, Date:{}, Coast:{})", direction, date, coast);
-        Tour tour = new Tour(direction, date, coast);
-        return tourDao.save(tour);
+        LOGGER.debug("Create tour(Direction:{}, Date:{}, Coast:{})", tour.getDirection(), tour.getDate(), tour.getCoast());
+        tourDao.save(tour);
+        return tour.getId();
     }
 
     @Override
-    public Tour updateTour(Long tour_id, String direction, LocalDate date, Integer coast) {
+    public Long updateTour(Tour tour) {
 
-        LOGGER.debug("Update tour(tour_id:{}, Direction:{}, Date:{}, Coast{})", tour_id, direction, date, coast);
+        LOGGER.debug("Update tour {}", tour);
 
-        Tour tour = tourDao.findById(tour_id).orElseThrow();
-        tour.setDirection(direction);
-        tour.setDate(date);
-        tour.setCoast(coast);
-
-        return tourDao.save(tour);
+        Tour tour1 = tourDao.findById(tour.getId()).orElseThrow();
+        tour1.setDirection(tour.getDirection());
+        tour1.setDate(tour.getDate());
+        tour1.setCoast(tour.getCoast());
+        tourDao.save(tour1);
+        return tour1.getId();
     }
 
     @Override
@@ -76,11 +77,11 @@ public class TourServiceImpl implements TourService {
     }
 
     @Override
-    public void deleteTour(Long tour_id) {
+    public Long deleteTour(Long tour_id) {
 
         LOGGER.debug("Delete tour(tour_id:{})", tour_id);
         Tour tour = tourDao.findById(tour_id).orElseThrow();
         tourDao.delete(tour);
-
+        return tour_id;
     }
 }

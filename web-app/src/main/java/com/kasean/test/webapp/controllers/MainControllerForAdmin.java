@@ -1,8 +1,7 @@
 package com.kasean.test.webapp.controllers;
 
 import com.kasean.test.model.Tour;
-import com.kasean.test.service.TourServiceImpl;
-import com.kasean.test.service.UserServiceImpl;
+import com.kasean.test.service.TourService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,10 +18,12 @@ import java.util.Optional;
 @Controller
 public class MainControllerForAdmin {
 
+    private TourService tourService;
+
     @Autowired
-    private TourServiceImpl tourService;
-    @Autowired
-    private UserServiceImpl userService;
+    public MainControllerForAdmin(TourService tourService) {
+        this.tourService = tourService;
+    }
 
     @GetMapping("/AdminMain")
     public String showAdminMainPage(Model model){
@@ -31,12 +32,12 @@ public class MainControllerForAdmin {
 
         model.addAttribute("tours", tours);
 
-        return "AdminMain";
+        return "admin-main";
     }
 
     @GetMapping("/Add")
     public String showAddPage(Model model){
-        return "Add";
+        return "add";
     }
 
     @PostMapping("/Add")
@@ -44,9 +45,9 @@ public class MainControllerForAdmin {
 
         LocalDate tourDate = LocalDate.parse(date);
 
-        tourService.createTour(direction, tourDate, coast);
+        tourService.createTour(new Tour(direction, tourDate, coast));
 
-        return "Add";
+        return "add";
     }
 
     @GetMapping("/Change/{id}")
@@ -57,14 +58,16 @@ public class MainControllerForAdmin {
         tour.ifPresent(tours::add);
         model.addAttribute("tours", tours);
 
-        return "Change";
+        return "change";
     }
 
     @PostMapping("/Change/{id}")
     public String updateTour(@PathVariable(value = "id") long id, @RequestParam String direction, String date, Integer coast, Model model){
         LocalDate tourDate = LocalDate.parse(date);
-        tourService.updateTour(id, direction, tourDate, coast);
-        return "AdminMain";
+        Tour tour = new Tour(direction, tourDate, coast);
+        tour.setId(id);
+        tourService.updateTour(tour);
+        return "admin-main";
 
     }
 
@@ -72,7 +75,7 @@ public class MainControllerForAdmin {
     public String deleteTour(@PathVariable(value = "id") long id, Model model){
         tourService.deleteTour(id);
 
-        return "AdminMain";
+        return "admin-main";
 
     }
 
@@ -83,6 +86,6 @@ public class MainControllerForAdmin {
 
         model.addAttribute("tours", tours);
 
-        return "AdminMain";
+        return "admin-main";
     }
 }
