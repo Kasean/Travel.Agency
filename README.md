@@ -28,4 +28,4 @@ In order to start working with the application, you need to follow the links:
 
 http://localhost:8080/ - authorization page 
 
-###(["user@user.com", "user"], ["admin@admin.com", "admin"]) - logins and passwords for the user and administrator.
+### (["user@user.com", "user"], ["admin@admin.com", "admin"]) - logins and passwords for the user and administrator.
