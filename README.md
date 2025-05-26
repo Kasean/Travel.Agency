@@ -1,5 +1,5 @@
-#Kasean-travel.agency
-This is simple 'Travel agency' web application.
+# Kasean-travel.agency
+This is simple 'Travel agency' web application. My first pet project that i completed on my own
 
 ##Requirements
 1. JDK 11
